@@ -1,0 +1,21 @@
+kubectl exec -it kafka-client -- \
+curl -X POST  http://my-connect-cp-kafka-connect:8083/connectors -H "Content-Type: application/json" -d '
+{
+  "name": "jdbc_sink_postgres_01",
+  "config": {
+    "connector.class":"io.confluent.connect.jdbc.JdbcSinkConnector",
+    "connection.url": "jdbc:postgresql://postgres-target:5432/postgres",
+    "connection.user": "postgres",
+    "connection.password": "admin1234!",
+    "poll.interval.ms": "3600",
+    "table.poll.interval.ms": "5000",
+    "tasks.max":"3",
+    "topics.regex": "^postgres_.*",
+    "auto.create": "true",
+    "auto.evolve": "true",
+    "schemas.enable" : "true",
+    "errors.tolerance": "all",
+    "errors.log.enable": true,
+    "errors.log.include.messages": true
+}
+'

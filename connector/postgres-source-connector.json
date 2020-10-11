@@ -1,0 +1,18 @@
+kubectl exec -it kafka-client -- \
+curl -X POST  http://my-connect-cp-kafka-connect:8083/connectors -H "Content-Type: application/json" -d '
+ {
+  "name": "jdbc_source_postgres_01",
+  "config": {
+    "connector.class": "io.confluent.connect.jdbc.JdbcSourceConnector",
+    "incrementing.column.name": "id",
+    "tasks.max": "10",
+    "mode": "incrementing",
+    "topic.prefix": "postgres_source_",
+    "connection.user": "postgres",
+    "connection.password": "admin1234!",
+    "poll.interval.ms": "3600",
+    "table.poll.interval.ms": "5000",
+    "numeric.mapping": "best_fit",
+    "connection.url": "jdbc:postgresql://postgres:5432/postgres"
+    }
+ }'
